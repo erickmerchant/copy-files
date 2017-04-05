@@ -8,7 +8,7 @@ const copyFile = require('cp-file')
 const chokidar = require('chokidar')
 const path = require('path')
 
-command('assets', 'generate css using postcss, and js using browserify', function ({parameter, option, command}) {
+command('copy-files', 'copy files from one directory to another', function ({parameter, option, command}) {
   parameter('source', {
     description: 'what to save',
     required: true
@@ -28,7 +28,7 @@ command('assets', 'generate css using postcss, and js using browserify', functio
   return function (args) {
     if (args.watch) {
       chokidar.watch(path.join(process.cwd(), args.source), {ignoreInitial: true}).on('all', function () {
-        copy(args).then(console.error)
+        copy(args).catch(console.error)
       })
     }
 
