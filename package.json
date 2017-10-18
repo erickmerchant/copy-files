@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/erickmerchant/copy-files#readme",
   "dependencies": {
-    "chalk": "^2.1.0",
+    "chalk": "^2.2.0",
     "chokidar": "^1.6.1",
     "cp-file": "^5.0.0",
     "glob": "^7.1.1",
