@@ -24,7 +24,7 @@
     "cp-file": "^5.0.0",
     "glob": "^7.1.1",
     "glob-parent": "^3.1.0",
-    "sergeant": "^17.0.1",
+    "sergeant": "^17.0.2",
     "thenify": "^3.2.1"
   },
   "devDependencies": {
