@@ -2,8 +2,9 @@
   "name": "@erickmerchant/copy-files",
   "version": "1.5.1",
   "description": "",
+  "main": "index.js",
   "bin": {
-    "copy-files": "./main.js"
+    "copy-files": "./cli.js"
   },
   "scripts": {
     "test": "standard"
