@@ -4,8 +4,17 @@ const thenify = require('thenify')
 const glob = thenify(require('glob'))
 const parent = require('glob-parent')
 const path = require('path')
+const assert = require('assert')
 
 module.exports = function (deps) {
+  assert.equal(typeof deps.copy, 'function')
+
+  assert.equal(typeof deps.watch, 'function')
+
+  assert.ok(deps.out)
+
+  assert.equal(typeof deps.out.write, 'function')
+
   return function ({parameter, option, command}) {
     parameter('source', {
       description: 'what to save',

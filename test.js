@@ -5,8 +5,14 @@ const execa = require('execa')
 const stream = require('stream')
 
 const noopDefiners = {
-  parameter: () => {},
-  option: () => {}
+  parameter () {},
+  option () {}
+}
+
+const noopDeps = {
+  copy () { },
+  watch () { },
+  out: new stream.Writable()
 }
 
 test('index.js - options and parameters', function (t) {
@@ -15,7 +21,7 @@ test('index.js - options and parameters', function (t) {
   const parameters = {}
   const options = {}
 
-  require('./index')({})({
+  require('./index')(noopDeps)({
     parameter: (name, args) => {
       parameters[name] = args
     },
