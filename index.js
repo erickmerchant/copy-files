@@ -34,19 +34,19 @@ module.exports = function (deps) {
     })
 
     return function (args) {
-      return Promise.all(args.source.map((source) => {
+      return Promise.all(args.source.map(function (source) {
         source = path.join(process.cwd(), source)
 
         const directory = parent(source)
 
-        return deps.watch(args.watch, directory, () => {
+        return deps.watch(args.watch, directory, function () {
           return glob(source, {nodir: true})
           .then(function (files) {
-            return Promise.all(files.map((file) => {
+            return Promise.all(files.map(function (file) {
               const relativeNewFile = path.join(args.destination, path.relative(directory, file))
               const newFile = path.join(process.cwd(), relativeNewFile)
 
-              return deps.copy(file, newFile, { parents: true }).then(() => {
+              return deps.copy(file, newFile, { parents: true }).then(function () {
                 deps.out.write(chalk.green('\u2714') + ' saved ' + relativeNewFile + '\n')
               })
             }))

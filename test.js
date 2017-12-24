@@ -22,10 +22,10 @@ test('index.js - options and parameters', function (t) {
   const options = {}
 
   require('./index')(noopDeps)({
-    parameter: (name, args) => {
+    parameter (name, args) {
       parameters[name] = args
     },
-    option: (name, args) => {
+    option (name, args) {
       options[name] = args
     }
   })
@@ -55,7 +55,7 @@ test('index.js - functionality', function (t) {
   const olds = []
   const news = []
 
-  out._write = (line, encoding, done) => {
+  out._write = function (line, encoding, done) {
     output.push(line.toString('utf8'))
 
     done()
@@ -82,7 +82,7 @@ test('index.js - functionality', function (t) {
     destination: 'dest',
     watch: true
   })
-  .then(() => {
+  .then(function () {
     t.deepEqual(olds, [
       path.join(process.cwd(), 'fixtures/a.txt'),
       path.join(process.cwd(), 'fixtures/b.txt'),
