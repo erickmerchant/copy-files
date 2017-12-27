@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/copy-files#readme",
   "dependencies": {
-    "@erickmerchant/conditional-watch": "^2.0.0",
+    "@erickmerchant/conditional-watch": "^2.0.1",
     "chalk": "^2.3.0",
     "cp-file": "^5.0.0",
     "glob": "^7.1.1",
