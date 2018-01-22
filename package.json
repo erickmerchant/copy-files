@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/copy-files",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "",
   "main": "index.js",
   "bin": {
