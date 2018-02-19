@@ -41,17 +41,17 @@ module.exports = function (deps) {
 
         return deps.watch(args.watch, directory, function () {
           return glob(source, {nodir: true})
-          .then(function (files) {
-            return Promise.all(files.map(function (file) {
-              const relativeNewFile = path.join(args.destination, path.relative(directory, file))
-              const newFile = path.join(process.cwd(), relativeNewFile)
+            .then(function (files) {
+              return Promise.all(files.map(function (file) {
+                const relativeNewFile = path.join(args.destination, path.relative(directory, file))
+                const newFile = path.join(process.cwd(), relativeNewFile)
 
-              return deps.copy(file, newFile, { parents: true }).then(function () {
-                return deps.out.write(chalk.green('\u2714') + ' saved ' + relativeNewFile + '\n')
-              })
-            }))
-          })
-          .catch(error)
+                return deps.copy(file, newFile, { parents: true }).then(function () {
+                  return deps.out.write(chalk.green('\u2714') + ' saved ' + relativeNewFile + '\n')
+                })
+              }))
+            })
+            .catch(error)
         })
       }))
     }

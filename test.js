@@ -82,25 +82,25 @@ test('index.js - functionality', function (t) {
     destination: 'dest',
     watch: true
   })
-  .then(function () {
-    t.deepEqual(olds, [
-      path.join(process.cwd(), 'fixtures/a.txt'),
-      path.join(process.cwd(), 'fixtures/b.txt'),
-      path.join(process.cwd(), 'fixtures/c/d.txt')
-    ])
+    .then(function () {
+      t.deepEqual(olds, [
+        path.join(process.cwd(), 'fixtures/a.txt'),
+        path.join(process.cwd(), 'fixtures/b.txt'),
+        path.join(process.cwd(), 'fixtures/c/d.txt')
+      ])
 
-    t.deepEqual(news, [
-      path.join(process.cwd(), 'dest/a.txt'),
-      path.join(process.cwd(), 'dest/b.txt'),
-      path.join(process.cwd(), 'dest/c/d.txt')
-    ])
+      t.deepEqual(news, [
+        path.join(process.cwd(), 'dest/a.txt'),
+        path.join(process.cwd(), 'dest/b.txt'),
+        path.join(process.cwd(), 'dest/c/d.txt')
+      ])
 
-    t.deepEqual(output, [
-      chalk.green('\u2714') + ' saved dest/a.txt\n',
-      chalk.green('\u2714') + ' saved dest/b.txt\n',
-      chalk.green('\u2714') + ' saved dest/c/d.txt\n'
-    ])
-  })
+      t.deepEqual(output, [
+        chalk.green('\u2714') + ' saved dest/a.txt\n',
+        chalk.green('\u2714') + ' saved dest/b.txt\n',
+        chalk.green('\u2714') + ' saved dest/c/d.txt\n'
+      ])
+    })
 })
 
 test('cli.js', async function (t) {
