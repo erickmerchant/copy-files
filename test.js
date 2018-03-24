@@ -1,6 +1,5 @@
 const test = require('tape')
 const chalk = require('chalk')
-const path = require('path')
 const execa = require('execa')
 const stream = require('stream')
 
@@ -16,7 +15,7 @@ const noopDeps = {
 }
 
 test('index.js - options and parameters', function (t) {
-  t.plan(8)
+  t.plan(7)
 
   const parameters = {}
   const options = {}
@@ -33,8 +32,6 @@ test('index.js - options and parameters', function (t) {
   t.ok(parameters.source)
 
   t.equal(parameters.source.required, true)
-
-  t.equal(parameters.source.multiple, true)
 
   t.ok(parameters.destination)
 
@@ -65,7 +62,7 @@ test('index.js - functionality', function (t) {
     watch (watch, directory, fn, options) {
       t.equal(watch, true)
 
-      t.equal(directory, path.join(process.cwd(), 'fixtures'))
+      t.equal(directory, './fixtures/')
 
       return fn()
     },
@@ -78,21 +75,21 @@ test('index.js - functionality', function (t) {
     },
     out
   })(noopDefiners)({
-    source: ['./fixtures/**/*'],
+    source: './fixtures/',
     destination: 'dest',
     watch: true
   })
     .then(function () {
       t.deepEqual(olds, [
-        path.join(process.cwd(), 'fixtures/a.txt'),
-        path.join(process.cwd(), 'fixtures/b.txt'),
-        path.join(process.cwd(), 'fixtures/c/d.txt')
+        'fixtures/a.txt',
+        'fixtures/b.txt',
+        'fixtures/c/d.txt'
       ])
 
       t.deepEqual(news, [
-        path.join(process.cwd(), 'dest/a.txt'),
-        path.join(process.cwd(), 'dest/b.txt'),
-        path.join(process.cwd(), 'dest/c/d.txt')
+        'dest/a.txt',
+        'dest/b.txt',
+        'dest/c/d.txt'
       ])
 
       t.deepEqual(output, [

@@ -2,7 +2,6 @@ const error = require('sergeant/error')
 const chalk = require('chalk')
 const thenify = require('thenify')
 const glob = thenify(require('glob'))
-const parent = require('glob-parent')
 const path = require('path')
 const assert = require('assert')
 
@@ -17,9 +16,8 @@ module.exports = function (deps) {
 
   return function ({parameter, option, command}) {
     parameter('source', {
-      description: 'what to save',
-      required: true,
-      multiple: true
+      description: 'a directory to copy files from',
+      required: true
     })
 
     parameter('destination', {
@@ -34,26 +32,19 @@ module.exports = function (deps) {
     })
 
     return function (args) {
-      return Promise.all(args.source.map(function (source) {
-        source = path.join(process.cwd(), source)
+      return deps.watch(args.watch, args.source, function () {
+        return glob(path.join(args.source, '**/*'), {nodir: true})
+          .then(function (files) {
+            return Promise.all(files.map(function (file) {
+              const newFile = path.join(args.destination, path.relative(args.source, file))
 
-        const directory = parent(source)
-
-        return deps.watch(args.watch, directory, function () {
-          return glob(source, {nodir: true})
-            .then(function (files) {
-              return Promise.all(files.map(function (file) {
-                const relativeNewFile = path.join(args.destination, path.relative(directory, file))
-                const newFile = path.join(process.cwd(), relativeNewFile)
-
-                return deps.copy(file, newFile, { parents: true }).then(function () {
-                  return deps.out.write(chalk.green('\u2714') + ' saved ' + relativeNewFile + '\n')
-                })
-              }))
-            })
-            .catch(error)
-        })
-      }))
+              return deps.copy(file, newFile, { parents: true }).then(function () {
+                return deps.out.write(chalk.green('\u2714') + ' saved ' + newFile + '\n')
+              })
+            }))
+          })
+          .catch(error)
+      })
     }
   }
 }
