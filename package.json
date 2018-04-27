@@ -24,7 +24,7 @@
     "chalk": "^2.4.1",
     "cp-file": "^5.0.0",
     "glob": "^7.1.1",
-    "sergeant": "^17.4.1",
+    "sergeant": "^18.0.2",
     "thenify": "^3.2.1"
   },
   "devDependencies": {

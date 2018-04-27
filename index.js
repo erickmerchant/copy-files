@@ -27,7 +27,7 @@ module.exports = function (deps) {
 
     option('watch', {
       description: 'watch for changes',
-      type: Boolean,
+      default: false,
       aliases: ['w']
     })
 
