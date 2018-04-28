@@ -15,7 +15,7 @@ const noopDeps = {
 }
 
 test('index.js - options and parameters', function (t) {
-  t.plan(7)
+  t.plan(6)
 
   const parameters = {}
   const options = {}
@@ -38,8 +38,6 @@ test('index.js - options and parameters', function (t) {
   t.equal(parameters.destination.required, true)
 
   t.ok(options.watch)
-
-  t.equal(options.watch.default, false)
 
   t.deepEqual(options.watch.aliases, ['w'])
 })
