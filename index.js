@@ -1,7 +1,7 @@
 const error = require('sergeant/error')
 const chalk = require('chalk')
-const thenify = require('thenify')
-const glob = thenify(require('glob'))
+const promisify = require('util').promisify
+const glob = promisify(require('glob'))
 const path = require('path')
 const assert = require('assert')
 
