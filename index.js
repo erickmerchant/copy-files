@@ -38,7 +38,7 @@ module.exports = function (deps) {
               const newFile = path.join(args.destination, path.relative(args.source, file))
 
               return deps.copy(file, newFile, { parents: true }).then(function () {
-                return deps.out.write(chalk.green('\u2714') + ' saved ' + newFile + '\n')
+                return deps.out.write(`${chalk.gray('[copy-files]')} ${chalk.green('\u2714')} saved ${newFile}\n`)
               })
             }))
           })

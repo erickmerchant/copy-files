@@ -91,9 +91,9 @@ test('index.js - functionality', function (t) {
       ])
 
       t.deepEqual(output, [
-        chalk.green('\u2714') + ' saved dest/a.txt\n',
-        chalk.green('\u2714') + ' saved dest/b.txt\n',
-        chalk.green('\u2714') + ' saved dest/c/d.txt\n'
+        chalk.gray('[copy-files]') + ' ' + chalk.green('\u2714') + ' saved dest/a.txt\n',
+        chalk.gray('[copy-files]') + ' ' + chalk.green('\u2714') + ' saved dest/b.txt\n',
+        chalk.gray('[copy-files]') + ' ' + chalk.green('\u2714') + ' saved dest/c/d.txt\n'
       ])
     })
 })
