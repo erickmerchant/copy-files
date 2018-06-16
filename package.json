@@ -24,7 +24,7 @@
     "chalk": "^2.4.1",
     "cp-file": "^6.0.0",
     "glob": "^7.1.2",
-    "sergeant": "^19.5.0"
+    "sergeant": "^20.0.0"
   },
   "devDependencies": {
     "execa": "^0.10.0",
