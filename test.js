@@ -39,7 +39,7 @@ test('index.js - options and parameters', function (t) {
 
   t.ok(options.watch)
 
-  t.deepEqual(options.watch.aliases, ['w'])
+  t.deepEqual(options.watch.alias, 'w')
 })
 
 test('index.js - functionality', function (t) {
