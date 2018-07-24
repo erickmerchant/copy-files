@@ -14,36 +14,19 @@ module.exports = function (deps) {
 
   assert.equal(typeof deps.out.write, 'function')
 
-  return function ({parameter, option, command}) {
-    parameter('source', {
-      description: 'a directory to copy files from',
-      required: true
+  return function (args) {
+    return deps.watch(args.watch, args.source, function () {
+      return glob(path.join(args.source, '**/*'), {nodir: true})
+        .then(function (files) {
+          return Promise.all(files.map(function (file) {
+            const newFile = path.join(args.destination, path.relative(args.source, file))
+
+            return deps.copy(file, newFile, { parents: true }).then(function () {
+              return deps.out.write(`${chalk.gray('[copy-files]')} saved ${newFile}\n`)
+            })
+          }))
+        })
+        .catch(error)
     })
-
-    parameter('destination', {
-      description: 'where to save to',
-      required: true
-    })
-
-    option('watch', {
-      description: 'watch for changes',
-      alias: 'w'
-    })
-
-    return function (args) {
-      return deps.watch(args.watch, args.source, function () {
-        return glob(path.join(args.source, '**/*'), {nodir: true})
-          .then(function (files) {
-            return Promise.all(files.map(function (file) {
-              const newFile = path.join(args.destination, path.relative(args.source, file))
-
-              return deps.copy(file, newFile, { parents: true }).then(function () {
-                return deps.out.write(`${chalk.gray('[copy-files]')} saved ${newFile}\n`)
-              })
-            }))
-          })
-          .catch(error)
-      })
-    }
   }
 }

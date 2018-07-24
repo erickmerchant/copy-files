@@ -3,45 +3,6 @@ const chalk = require('chalk')
 const execa = require('execa')
 const stream = require('stream')
 
-const noopDefiners = {
-  parameter () {},
-  option () {}
-}
-
-const noopDeps = {
-  copy () { },
-  watch () { },
-  out: new stream.Writable()
-}
-
-test('index.js - options and parameters', function (t) {
-  t.plan(6)
-
-  const parameters = {}
-  const options = {}
-
-  require('./index')(noopDeps)({
-    parameter (name, args) {
-      parameters[name] = args
-    },
-    option (name, args) {
-      options[name] = args
-    }
-  })
-
-  t.ok(parameters.source)
-
-  t.equal(parameters.source.required, true)
-
-  t.ok(parameters.destination)
-
-  t.equal(parameters.destination.required, true)
-
-  t.ok(options.watch)
-
-  t.deepEqual(options.watch.alias, 'w')
-})
-
 test('index.js - functionality', function (t) {
   t.plan(5)
 
@@ -72,7 +33,7 @@ test('index.js - functionality', function (t) {
       return Promise.resolve(true)
     },
     out
-  })(noopDefiners)({
+  })({
     source: './fixtures/',
     destination: 'dest',
     watch: true
