@@ -7,6 +7,7 @@ const action = require('./index')
 command('copy-files', 'copy files from one directory to another', ({option, parameter}) => {
   parameter('source', {
     description: 'a directory to copy files from',
+    multiple: true,
     required: true
   })
 

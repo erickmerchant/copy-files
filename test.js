@@ -21,7 +21,7 @@ test('index.js - functionality', function (t) {
     watch (watch, directory, fn, options) {
       t.equal(watch, true)
 
-      t.equal(directory, './fixtures/')
+      t.deepEqual(directory, ['./fixtures/'])
 
       return fn()
     },
@@ -34,7 +34,7 @@ test('index.js - functionality', function (t) {
     },
     out
   })({
-    source: './fixtures/',
+    source: ['./fixtures/'],
     destination: 'dest',
     watch: true
   })
