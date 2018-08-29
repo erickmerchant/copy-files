@@ -6,13 +6,13 @@ const path = require('path')
 const assert = require('assert')
 
 module.exports = function (deps) {
-  assert.equal(typeof deps.copy, 'function')
+  assert.strictEqual(typeof deps.copy, 'function')
 
-  assert.equal(typeof deps.watch, 'function')
+  assert.strictEqual(typeof deps.watch, 'function')
 
   assert.ok(deps.out)
 
-  assert.equal(typeof deps.out.write, 'function')
+  assert.strictEqual(typeof deps.out.write, 'function')
 
   return function (args) {
     return deps.watch(args.watch, args.source, function () {
@@ -24,7 +24,7 @@ module.exports = function (deps) {
         globRoot = args.source[0]
       }
 
-      return glob(path.join(globRoot, '**/*'), {nodir: true})
+      return glob(path.join(globRoot, '**/*'), { nodir: true })
         .then(function (files) {
           return Promise.all(files.map(function (file) {
             const newFile = path.join(args.destination, path.relative(args.source.reduce((parent, source) => file.startsWith(source) ? source : parent), file))

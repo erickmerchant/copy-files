@@ -4,7 +4,7 @@ const copy = require('cp-file')
 const watch = require('@erickmerchant/conditional-watch')
 const action = require('./index')
 
-command('copy-files', 'copy files from one directory to another', ({option, parameter}) => {
+command('copy-files', 'copy files from one directory to another', ({ option, parameter }) => {
   parameter('source', {
     description: 'a directory to copy files from',
     multiple: true,
@@ -21,5 +21,5 @@ command('copy-files', 'copy files from one directory to another', ({option, para
     alias: 'w'
   })
 
-  return (args) => action({copy, watch, out: process.stdout})(args)
+  return (args) => action({ copy, watch, out: process.stdout })(args)
 })(process.argv.slice(2))
