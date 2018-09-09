@@ -3,7 +3,7 @@ const chalk = require('chalk')
 const execa = require('execa')
 const stream = require('stream')
 
-test('index.js - functionality', function (t) {
+test('index.js - functionality', async (t) => {
   t.plan(5)
 
   const out = new stream.Writable()
@@ -11,13 +11,13 @@ test('index.js - functionality', function (t) {
   const olds = []
   const news = []
 
-  out._write = function (line, encoding, done) {
+  out._write = (line, encoding, done) => {
     output.push(line.toString('utf8'))
 
     done()
   }
 
-  require('./index')({
+  await require('./index')({
     watch (watch, directory, fn, options) {
       t.equal(watch, true)
 
@@ -25,12 +25,12 @@ test('index.js - functionality', function (t) {
 
       return fn()
     },
-    copy (oldFile, newFile) {
+    async copy (oldFile, newFile) {
       olds.push(oldFile)
 
       news.push(newFile)
 
-      return Promise.resolve(true)
+      return true
     },
     out
   })({
@@ -38,28 +38,27 @@ test('index.js - functionality', function (t) {
     destination: 'dest',
     watch: true
   })
-    .then(function () {
-      t.deepEqual(olds, [
-        'fixtures/a.txt',
-        'fixtures/b.txt',
-        'fixtures/c/d.txt'
-      ])
 
-      t.deepEqual(news, [
-        'dest/a.txt',
-        'dest/b.txt',
-        'dest/c/d.txt'
-      ])
+  t.deepEqual(olds, [
+    'fixtures/a.txt',
+    'fixtures/b.txt',
+    'fixtures/c/d.txt'
+  ])
 
-      t.deepEqual(output, [
-        `${chalk.gray('[copy-files]')} saved dest/a.txt\n`,
-        `${chalk.gray('[copy-files]')} saved dest/b.txt\n`,
-        `${chalk.gray('[copy-files]')} saved dest/c/d.txt\n`
-      ])
-    })
+  t.deepEqual(news, [
+    'dest/a.txt',
+    'dest/b.txt',
+    'dest/c/d.txt'
+  ])
+
+  t.deepEqual(output, [
+    `${chalk.gray('[copy-files]')} saved dest/a.txt\n`,
+    `${chalk.gray('[copy-files]')} saved dest/b.txt\n`,
+    `${chalk.gray('[copy-files]')} saved dest/c/d.txt\n`
+  ])
 })
 
-test('cli.js', async function (t) {
+test('cli.js', async (t) => {
   t.plan(4)
 
   try {

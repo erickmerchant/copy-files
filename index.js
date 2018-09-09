@@ -5,7 +5,7 @@ const glob = promisify(require('glob'))
 const path = require('path')
 const assert = require('assert')
 
-module.exports = function (deps) {
+module.exports = (deps) => {
   assert.strictEqual(typeof deps.copy, 'function')
 
   assert.strictEqual(typeof deps.watch, 'function')
@@ -14,8 +14,8 @@ module.exports = function (deps) {
 
   assert.strictEqual(typeof deps.out.write, 'function')
 
-  return function (args) {
-    return deps.watch(args.watch, args.source, function () {
+  return (args) => {
+    return deps.watch(args.watch, args.source, async () => {
       let globRoot
 
       if (args.source.length > 1) {
@@ -24,17 +24,19 @@ module.exports = function (deps) {
         globRoot = args.source[0]
       }
 
-      return glob(path.join(globRoot, '**/*'), { nodir: true })
-        .then(function (files) {
-          return Promise.all(files.map(function (file) {
-            const newFile = path.join(args.destination, path.relative(args.source.reduce((parent, source) => file.startsWith(source) ? source : parent), file))
+      try {
+        const files = await glob(path.join(globRoot, '**/*'), { nodir: true })
 
-            return deps.copy(file, newFile, { parents: true }).then(function () {
-              return deps.out.write(`${chalk.gray('[copy-files]')} saved ${newFile}\n`)
-            })
-          }))
-        })
-        .catch(error)
+        return Promise.all(files.map(async (file) => {
+          const newFile = path.join(args.destination, path.relative(args.source.reduce((parent, source) => file.startsWith(source) ? source : parent), file))
+
+          await deps.copy(file, newFile, { parents: true })
+
+          return deps.out.write(`${chalk.gray('[copy-files]')} saved ${newFile}\n`)
+        }))
+      } catch (err) {
+        error(err)
+      }
     })
   }
 }
