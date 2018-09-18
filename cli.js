@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const command = require('sergeant')
 const copy = require('cp-file')
-const watch = require('@erickmerchant/conditional-watch')
+const chokidar = require('chokidar')
 const action = require('./index')
 
 command('copy-files', 'copy files from one directory to another', ({ option, parameter }) => {
@@ -21,5 +21,15 @@ command('copy-files', 'copy files from one directory to another', ({ option, par
     alias: 'w'
   })
 
-  return (args) => action({ copy, watch, out: process.stdout })(args)
+  return (args) => action({
+    copy,
+    watch (watch, path, fn) {
+      if (watch) {
+        chokidar.watch(path, { ignoreInitial: true }).on('all', fn)
+      }
+
+      return fn()
+    },
+    out: process.stdout
+  })(args)
 })(process.argv.slice(2))
